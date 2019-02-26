@@ -13,4 +13,8 @@ public class Module9 implements com.headius.modulator.Module {
     public boolean isOpen(String pn) {
         return module.isOpen(pn);
     }
+
+    public boolean isExported(String pn) {
+        return module.isExported(pn);
+    }
 }
