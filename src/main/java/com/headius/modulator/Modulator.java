@@ -17,6 +17,10 @@ public class Modulator {
         return new ModuleDummy();
     }
 
+    public static void addOpens​(Class<?> ownerClass, String pn, Class<?> otherClass) {
+        getModule(ownerClass).addOpens(pn, getModule(otherClass));
+    }
+
     public static <T extends AccessibleObject & Member> boolean trySetAccessible(T accessibleMember) {
         return trySetAccessible(accessibleMember.getDeclaringClass(), accessibleMember);
     }

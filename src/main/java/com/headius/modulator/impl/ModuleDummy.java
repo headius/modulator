@@ -13,4 +13,8 @@ public class ModuleDummy implements Module {
     public boolean isExported(String pn) {
         return true;
     }
+
+    public void addOpens(String pn, Module other) {
+        return;
+    }
 }
