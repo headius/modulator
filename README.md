@@ -1,3 +1,6 @@
+This project is no longer maintained, having been merged into the backport9
+library at https://github.com/headius/backport9.
+
 Modulator
 =========
 
