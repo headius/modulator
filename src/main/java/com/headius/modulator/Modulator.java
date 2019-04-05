@@ -22,16 +22,38 @@ public class Modulator {
     }
 
     public static <T extends AccessibleObject & Member> boolean trySetAccessible(T accessibleMember) {
-        return trySetAccessible(accessibleMember.getDeclaringClass(), accessibleMember);
+        return trySetAccessible(accessibleMember.getDeclaringClass(), accessibleMember, null);
     }
 
-    private static boolean trySetAccessible(Class<?> declaringClass, AccessibleObject accessibleObject) {
+    public static <T extends AccessibleObject & Member> boolean trySetAccessible(T accessibleMember, Class<?> modClass) {
+        return trySetAccessible(accessibleMember.getDeclaringClass(), accessibleMember, modClass);
+    }
+
+    private static boolean trySetAccessible(Class<?> declaringClass, AccessibleObject accessibleObject, Class<?> modClass) {
         if (accessibleObject.isAccessible()) return true;
 
         Module module = getModule(declaringClass);
 
+        return modClass == null ?
+                checkOpen(module, declaringClass, accessibleObject) :
+                    checkOpen(module, declaringClass, accessibleObject, getModule(modClass));
+    }
+
+    private static boolean checkOpen(final Module module, Class<?> declaringClass, AccessibleObject accessibleObject) {
         try {
             if (module.isOpen(declaringClass.getPackage().getName())) {
+                accessibleObject.setAccessible(true);
+                return true;
+            }
+            return false;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    private static boolean checkOpen(final Module module, Class<?> declaringClass, AccessibleObject accessibleObject, final Module other) {
+        try {
+            if (module.isOpen(declaringClass.getPackage().getName(), other)) {
                 accessibleObject.setAccessible(true);
                 return true;
             }

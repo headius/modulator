@@ -5,7 +5,7 @@ import com.headius.modulator.Module;
 /**
  * Created by headius on 10/18/17.
  */
-public class Module9 implements com.headius.modulator.Module {
+public class Module9 implements Module {
     private final java.lang.Module module;
 
     public Module9(java.lang.Module module) {
@@ -14,6 +14,10 @@ public class Module9 implements com.headius.modulator.Module {
 
     public boolean isOpen(String pn) {
         return module.isOpen(pn);
+    }
+
+    public boolean isOpen(String pn, Module other) {
+        return module.isOpen(pn, ((Module9) other).module);
     }
 
     public boolean isExported(String pn) {
